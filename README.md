@@ -18,7 +18,7 @@ The website displays a single form for uploading an image file. As the file is b
 
 To get this project up and running you should start by having Python installed on your computer. It's advised you create a virtual environment to store your projects dependencies separately.
 
-Clone or download this repository and open it in your editor of choice. In a terminal (mac/linux) or windows terminal, run the following command in the base directory of this project
+Clone or download this repository and open it in your editor of choice. In a terminal (windows terminal), run the following command in the base directory of this project
 
 ```
 python -m venv env
