@@ -1,6 +1,15 @@
 from django.shortcuts import render
+from .forms import UploadForm
+from django.http import JsonResponse
 
 # Create your views here.
 def home_view(request):
-    context = {}
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'message': 'hell yeah'})
+    else:
+        form = UploadForm()
+    context = {'form': form}
     return render(request, 'uploads/main.html', context)
