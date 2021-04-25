@@ -10,15 +10,33 @@ const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 // https://www.roryferguson.co.uk/blog/sending-form-data-post-fetch-api-django/
 
 input.addEventListener('change', (e) => {
+  alertBox.innerHTML = '';
+  imageBox.innerHTML = '';
+
+  // Apply upload size limit of 20kb
+  const img_data = e.target.files[0];
+  if (img_data.size > 1024 * 500) {
+    alertBox.innerHTML = `
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      Image file too large (>500kb).
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    `;
+    return;
+  }
+
+  const url = URL.createObjectURL(img_data);
+
   progressBox.classList.remove('not-visible');
   cancelBox.classList.remove('not-visible');
-
-  const img_data = e.target.files[0];
 
   const fd = new FormData();
   fd.append('image', img_data);
   fd.append('csrfmiddlewaretoken', csrftoken);
 
+  const cancelTokenSource = axios.CancelToken.source();
   const config = {
     onUploadProgress: function (progressEvent) {
       const percentCompleted = Math.round(
@@ -31,13 +49,42 @@ input.addEventListener('change', (e) => {
         </div>
         <p>${percentCompleted}%</p>
       `;
+      cancelBtn.addEventListener('click', () => {
+        cancelTokenSource.cancel();
+        setTimeout(() => {
+          uploadForm.reset();
+          progressBox.innerHTML = '';
+          cancelBox.classList.add('not-visible');
+        }, 2000);
+      });
     },
+    cancelToken: cancelTokenSource.token,
   };
 
   axios
     .post(uploadForm.action, fd, config)
-    .then((res) => console.log(res.data.message))
+    .then((res) => {
+      if (res.data.message === 'success') {
+        imageBox.innerHTML = `<img src="${url}" width="300px">`;
+        alertBox.innerHTML = `
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          Successfully uploaded the image below
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        `;
+        cancelBox.classList.add('not-visible');
+      }
+    })
     .catch((err) => {
-      console.log(err);
+      alertBox.innerHTML = `
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        Oops... Something went wrong.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      `;
     });
 });
