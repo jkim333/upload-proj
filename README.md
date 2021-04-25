@@ -1,8 +1,43 @@
 # Upload a file with progress bar using Django and Javascript
 
-<div style="width:260px;max-width:100%;"><div style="height:0;padding-bottom:54.23%;position:relative;"><iframe width="260" height="141" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameBorder="0" src="https://imgflip.com/embed/571pve"></iframe></div><p><a href="https://imgflip.com/gif/571pve">via Imgflip</a></p></div>
+This is a simple website built with Django to test out file upload with progress bar.
 
-![Alt Text](https://imgflip.com/gif/571pve)
+## Quick demo
 
-![571pve](https://user-images.githubusercontent.com/69041975/115989506-10fb9280-a602-11eb-9451-41ad9719a6e4.gif)
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/69041975/115993292-80c74880-a615-11eb-9e5e-00d729a1287f.gif)
 
+---
+
+## Project Summary
+
+The website displays a single form for uploading an image file. As the file is being uploaded, a progress bar shows the progress of the upload. After the upload is complete, the website displays an image of the uploaded file on the same page.
+
+---
+
+## Running this project
+
+To get this project up and running you should start by having Python installed on your computer. It's advised you create a virtual environment to store your projects dependencies separately.
+
+Clone or download this repository and open it in your editor of choice. In a terminal (mac/linux) or windows terminal, run the following command in the base directory of this project
+
+```
+python -m venv env
+```
+
+That will create a new folder `env` in your project directory. Next activate it with this command on windows:
+
+```
+.\env\Scripts\activate
+```
+
+Then install the project dependencies with
+
+```
+pip install -r requirements.txt
+```
+
+Now you can run the project with this command
+
+```
+python manage.py runserver
+```
